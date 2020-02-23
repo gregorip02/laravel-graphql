@@ -18,11 +18,19 @@ input UserLoginInput {
     password: String!
 }
 
+input UserInput {
+    name: String!
+    email: String! @rules(apply: ["unique:users,email"])
+    password: String! @bcrypt
+}
+
 type Query {
     users: [User!]! @paginate(defaultCount: 10)
 }
 
 type Mutation {
+    register(input: UserInput! @spread): User! @create
+
     login(input: UserLoginInput! @spread): User!
         @field(resolver: "Auth\\LoginMutation")
 }

@@ -53,6 +53,8 @@ class LoginMutation
      */
     protected function authenticated(Request $request, $user)
     {
+        // $token = $user->createToken('airlock-token')->plainTextToken;
+        // return compact('user', 'token');
         return $user;
     }
 }
