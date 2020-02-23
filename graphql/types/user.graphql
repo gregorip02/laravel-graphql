@@ -1,0 +1,13 @@
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input UserInput {
+  name: String!
+  email: String! @rules(apply: ["email", "unique:users,email"])
+  password: String! @bcrypt @rules(apply: ["min:6"])
+}
