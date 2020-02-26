@@ -1,4 +1,0 @@
-type Query {
-  ## Ge the auth user.
-  me: User @auth(guard: "api")
-}

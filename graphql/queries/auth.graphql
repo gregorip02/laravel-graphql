@@ -1,0 +1,5 @@
+extend type Query {
+    "Login into the app with the default credentials."
+    login(input: UserLoginInput! @spread): User!
+        @field(resolver: "Auth\\LoginQuery")
+}

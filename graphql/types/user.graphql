@@ -1,13 +1,27 @@
+"The user of your application"
 type User {
-  id: ID!
-  name: String!
-  email: String!
-  created_at: DateTime!
-  updated_at: DateTime!
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    created_at: DateTime!
+    updated_at: DateTime!
 }
 
-input UserInput {
-  name: String!
-  email: String! @rules(apply: ["email", "unique:users,email"])
-  password: String! @bcrypt @rules(apply: ["min:6"])
+# "The auhtenticated user"
+# type AuthenticatedUser {
+#     user: User!
+#     token: String!
+# }
+
+"The credentials for the login query"
+input UserLoginInput {
+    email: String! @rules(apply: ["required", "email"])
+    password: String! @rules(apply: ["required"])
 }
+
+# input UserRegisterInput {
+#   name: String!
+#   email: String! @rules(apply: ["email", "unique:users,email"])
+#   password: String! @bcrypt @rules(apply: ["min:6"])
+# }

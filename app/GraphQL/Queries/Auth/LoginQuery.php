@@ -1,13 +1,15 @@
 <?php
 
-namespace App\GraphQL\Mutations\Auth;
+namespace App\GraphQL\Queries\Auth;
 
+use App\User;
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class LoginMutation
+class LoginQuery
 {
     use AuthenticatesUsers;
 
@@ -22,39 +24,42 @@ class LoginMutation
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return $this->login(
-            new Request($args)
+        $request = $this->normaliceRequest($context, $args);
+
+        return $this->login($request);
+    }
+
+    /**
+     * Normalice the incoming request.
+     *
+     * @param  GraphQLContext $context
+     * @param  array          $args
+     * @return \Illuminate\Http\Request
+     */
+    protected function normaliceRequest(GraphQLContext $context, array $args): Request
+    {
+        return Request::createFrom(
+            new Request($args), $context->request()
         );
     }
 
-    /**
-     * Send the response after the user was authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendLoginResponse(Request $request)
-    {
-        // TODO: fix this, not work on the original trait.
-        // $request->session()->regenerate();
-
-        $this->clearLoginAttempts($request);
-
-        return $this->authenticated($request, $this->guard()->user());
-    }
-
-
-    /**
+     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
+     * @return AuthenticatedUser
      */
-    protected function authenticated(Request $request, $user)
+    protected function authenticated(Request $request, $user): User
     {
-        // $token = $user->createToken('airlock-token')->plainTextToken;
-        // return compact('user', 'token');
         return $user;
+    }
+
+    /**
+     * The user not been autenticated.
+     *
+     * @return Unknow
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw new AuthenticationException();
     }
 }

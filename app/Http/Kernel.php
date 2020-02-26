@@ -20,6 +20,12 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Fruitcake\Cors\HandleCors::class,
+        // Cuando intente autenticarme con mis credenciales
+        // obtenia el error "Session store not set on request.",
+        // quizas esta sea una solución desesperada y tal vez erronea
+        // pero si consideras que esto esta mal, cuentame por que.
+        \Illuminate\Session\Middleware\StartSession::class
     ];
 
     /**

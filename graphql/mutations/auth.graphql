@@ -1,5 +1,4 @@
-extend type Mutation {
-  login(_token: String!, email: String!, password: String!): User!
-    @middleware(checks: ["web"])
-    @field(resolver: "App\\GraphQL\\Mutations\\Auth\\LoginMutation")
-}
+# extend type Mutation @middleware(checks: ["api"]) {
+#     register(input: UserRegisterInput! @spread): String!
+#         @field(resolver: "Auth\\RegisterMutation")
+# }

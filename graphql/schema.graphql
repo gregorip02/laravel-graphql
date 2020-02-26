@@ -4,33 +4,21 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "A date string with format `Y-m-d`, e.g. `2011-05-23`."
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
-type User {
-    id: ID!
-    name: String!
-    email: String!
-    password: String!
-    created_at: DateTime!
-    updated_at: DateTime!
+type Query
+type Mutation
+
+extend type Query {
+    "Get and protected query passing the airlock guard."
+    protected: String
+        @guard(with: ["airlock"])
+        @field(resolver: "ProtectedQuery")
 }
 
-input UserLoginInput {
-    email: String! @rules(apply: ["email"])
-    password: String!
-}
+#import types/*.graphql
+#import types/*.gql
 
-input UserInput {
-    name: String!
-    email: String! @rules(apply: ["unique:users,email"])
-    password: String! @bcrypt
-}
+#import queries/*.graphql
+#import queries/*.gql
 
-type Query {
-    users: [User!]! @paginate(defaultCount: 10)
-}
-
-type Mutation {
-    register(input: UserInput! @spread): User! @create
-
-    login(input: UserLoginInput! @spread): User!
-        @field(resolver: "Auth\\LoginMutation")
-}
+#import mutations/*.graphql
+#import mutations/*.gql

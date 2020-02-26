@@ -12,9 +12,9 @@ services:
   graphql:
     image: "gregorip02/laravel-fpm"
     container_name: "graphql"
-    working_dir: /opt/app
+    working_dir: "/opt/app"
     volumes:
-      - $PWD:/opt/app
+      - "$PWD:/opt/app"
     ports:
       - "8080:80"
     networks:

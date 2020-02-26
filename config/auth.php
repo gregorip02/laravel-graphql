@@ -42,7 +42,7 @@ return [
         ],
 
         'api' => [
-            'driver' => 'airlock',
+            'driver' => 'token',
             'provider' => 'users',
             'hash' => false,
         ],
