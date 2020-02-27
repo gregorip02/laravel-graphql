@@ -3,16 +3,9 @@ type User {
     id: ID!
     name: String!
     email: String!
-    password: String!
     created_at: DateTime!
     updated_at: DateTime!
 }
-
-# "The auhtenticated user"
-# type AuthenticatedUser {
-#     user: User!
-#     token: String!
-# }
 
 "The credentials for the login query"
 input UserLoginInput {
@@ -20,8 +13,9 @@ input UserLoginInput {
     password: String! @rules(apply: ["required"])
 }
 
-# input UserRegisterInput {
-#   name: String!
-#   email: String! @rules(apply: ["email", "unique:users,email"])
-#   password: String! @bcrypt @rules(apply: ["min:6"])
-# }
+"The credentials for register mutation"
+input UserRegisterInput {
+  name: String! @rules(apply: ["required"])
+  email: String! @rules(apply: ["required", "email", "unique:users,email"])
+  password: String! @bcrypt @rules(apply: ["required", "min:6"])
+}

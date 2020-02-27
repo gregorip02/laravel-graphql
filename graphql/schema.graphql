@@ -12,6 +12,9 @@ extend type Query {
     protected: String
         @guard(with: ["airlock"])
         @field(resolver: "ProtectedQuery")
+
+    "Get the authenticated user"
+    me: User @auth
 }
 
 #import types/*.graphql

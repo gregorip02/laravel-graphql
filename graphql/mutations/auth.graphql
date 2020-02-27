@@ -1,4 +1,4 @@
-# extend type Mutation @middleware(checks: ["api"]) {
-#     register(input: UserRegisterInput! @spread): String!
-#         @field(resolver: "Auth\\RegisterMutation")
-# }
+extend type Mutation @middleware(checks: ["guest"]) {
+    createUser(input: UserRegisterInput! @spread): User!
+        @field(resolver: "Auth\\RegisterMutation")
+}
